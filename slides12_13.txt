@@ -1,0 +1,219 @@
+<section class="slide" id="slide-12">
+          <div class="slide-layout presentation-layout" style="display: grid; grid-template-columns: 1.1fr 1.2fr; gap: 1.5rem; width: 100%; height: 100%;">
+            <!-- Left: Spinner & Clinical Checklist -->
+            <div class="spinner-panel flex-center-col" style="gap: 8px; padding: 0.75rem; height: 100%; justify-content: space-between;">
+              <h3 class="panel-header" style="font-size: 1.2rem; margin-bottom: 2px; color: var(--cyan);">CUỘC THI BÁC SĨ CHUYÊN KHOA DA LIỄU</h3>
+              <p class="panel-desc-text" style="font-size: 0.8rem; text-align: center; color: var(--text-muted); margin-bottom: 4px;">Quay vòng quay để chọn khoa báo cáo ngẫu nhiên:</p>
+              
+              <div class="canvas-wheel-container" style="width: 200px; height: 200px; margin: 0.25rem 0; position: relative;">
+                <div class="wheel-pointer" style="font-size: 1.1rem; top: -6px;">▼</div>
+                <canvas id="spinner-wheel-canvas" width="200" height="200" style="width: 200px; height: 200px;"></canvas>
+              </div>
+              
+              <button class="btn btn-cyan btn-pulse" id="spin-wheel-btn" style="padding: 0.5rem 1.5rem; font-size: 0.95rem; font-weight: 800;">🩺 QUAY CHỌN KHOA</button>
+              <div class="spinner-result" id="spinner-result-text" style="margin-top: 0.25rem; font-size: 0.9rem; min-height: 20px; font-weight: 700; color: var(--amber);">SẴN SÀNG QUAY</div>
+
+              <!-- Checklist lâm sàng -->
+              <div class="clinical-checklist-box" style="width: 100%; background: rgba(6, 182, 212, 0.05); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px; padding: 0.75rem; margin-top: 0.5rem;">
+                <span style="color: var(--cyan); font-weight: 800; font-size: 0.75rem; display: block; margin-bottom: 6px;">📋 CHECKLIST KIỂM TRA BỆNH ÁN:</span>
+                <div style="display: flex; flex-direction: column; gap: 6px; text-align: left; font-size: 0.75rem; color: var(--text-main);">
+                  <label style="display: flex; gap: 8px; align-items: center; cursor: pointer;">
+                    <input type="checkbox" class="eval-check" style="accent-color: var(--cyan); width: 14px; height: 14px;"> Chẩn đoán đúng cơ chế (Hormone, Mồ hôi, Vi khuẩn)
+                  </label>
+                  <label style="display: flex; gap: 8px; align-items: center; cursor: pointer;">
+                    <input type="checkbox" class="eval-check" style="accent-color: var(--cyan); width: 14px; height: 14px;"> Thiết lập đủ 6 bước tắm sạch sâu
+                  </label>
+                  <label style="display: flex; gap: 8px; align-items: center; cursor: pointer;">
+                    <input type="checkbox" class="eval-check" style="accent-color: var(--cyan); width: 14px; height: 14px;"> Kê đơn lối sống hợp lý (pH 5.5, lăn khử mùi, thay tất)
+                  </label>
+                </div>
+              </div>
+
+              <!-- Button to open integrated EMR Clinical Cases Dashboard Overlay -->
+              <button class="btn btn-cyan btn-sm btn-block" style="margin-top: 5px; background: var(--purple); color: #FFF; box-shadow: 0 0 15px rgba(139, 92, 246, 0.3); display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 800; font-size: 0.8rem;" onclick="openClinicalCasesDashboard()">
+                🩺 BỆNH ÁN CUỘC THI (5 CA CA LÂM SÀNG)
+              </button>
+            </div>
+
+            <!-- Right: Scoreboard & Announcement -->
+            <div class="scoreboard-panel" style="display: flex; flex-direction: column; justify-content: space-between; padding: 0.75rem; height: 100%;">
+              <div>
+                <h3 class="panel-header" style="font-size: 1.2rem; margin-bottom: 2px; color: var(--cyan); text-align: center;">BẢNG ĐIỂM CHUYÊN KHOA LÂM SÀNG</h3>
+                <p class="panel-desc-text" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem; text-align: center;">Hội đồng bác sĩ điều chỉnh điểm trực tiếp:</p>
+                
+                <div class="scoreboard-grid" style="grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                  <div class="group-score-card" id="card-group-1" style="padding: 0.5rem 0.75rem;">
+                    <span class="group-name" style="font-size: 0.75rem;">KHOA 1 (NHÓM 1)</span>
+                    <div class="score-controls-row">
+                      <button class="score-adjust-btn minus-btn" data-group="1">-</button>
+                      <span class="group-score-value" id="score-val-1" style="font-size: 1.1rem; font-weight: 800;">0</span>
+                      <button class="score-adjust-btn plus-btn" data-group="1">+</button>
+                    </div>
+                  </div>
+                  <div class="group-score-card" id="card-group-2" style="padding: 0.5rem 0.75rem;">
+                    <span class="group-name" style="font-size: 0.75rem;">KHOA 2 (NHÓM 2)</span>
+                    <div class="score-controls-row">
+                      <button class="score-adjust-btn minus-btn" data-group="2">-</button>
+                      <span class="group-score-value" id="score-val-2" style="font-size: 1.1rem; font-weight: 800;">0</span>
+                      <button class="score-adjust-btn plus-btn" data-group="2">+</button>
+                    </div>
+                  </div>
+                  <div class="group-score-card" id="card-group-3" style="padding: 0.5rem 0.75rem;">
+                    <span class="group-name" style="font-size: 0.75rem;">KHOA 3 (NHÓM 3)</span>
+                    <div class="score-controls-row">
+                      <button class="score-adjust-btn minus-btn" data-group="3">-</button>
+                      <span class="group-score-value" id="score-val-3" style="font-size: 1.1rem; font-weight: 800;">0</span>
+                      <button class="score-adjust-btn plus-btn" data-group="3">+</button>
+                    </div>
+                  </div>
+                  <div class="group-score-card" id="card-group-4" style="padding: 0.5rem 0.75rem;">
+                    <span class="group-name" style="font-size: 0.75rem;">KHOA 4 (NHÓM 4)</span>
+                    <div class="score-controls-row">
+                      <button class="score-adjust-btn minus-btn" data-group="4">-</button>
+                      <span class="group-score-value" id="score-val-4" style="font-size: 1.1rem; font-weight: 800;">0</span>
+                      <button class="score-adjust-btn plus-btn" data-group="4">+</button>
+                    </div>
+                  </div>
+                  <div class="group-score-card" id="card-group-5" style="padding: 0.5rem 0.75rem;">
+                    <span class="group-name" style="font-size: 0.75rem;">KHOA 5 (NHÓM 5)</span>
+                    <div class="score-controls-row">
+                      <button class="score-adjust-btn minus-btn" data-group="5">-</button>
+                      <span class="group-score-value" id="score-val-5" style="font-size: 1.1rem; font-weight: 800;">0</span>
+                      <button class="score-adjust-btn plus-btn" data-group="5">+</button>
+                    </div>
+                  </div>
+                  <div class="group-score-card" id="card-group-6" style="padding: 0.5rem 0.75rem;">
+                    <span class="group-name" style="font-size: 0.75rem;">KHOA 6 (NHÓM 6)</span>
+                    <div class="score-controls-row">
+                      <button class="score-adjust-btn minus-btn" data-group="6">-</button>
+                      <span class="group-score-value" id="score-val-6" style="font-size: 1.1rem; font-weight: 800;">0</span>
+                      <button class="score-adjust-btn plus-btn" data-group="6">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Button to announce award & proceed -->
+              <div class="award-announcement-panel flex-center-col" style="margin-top: 1rem; width: 100%; gap: 10px;">
+                <button class="btn btn-cyan btn-pulse btn-lg btn-block" style="background: var(--mint); color: #000; font-weight: 800; font-size: 1.05rem; box-shadow: 0 0 15px var(--mint-glow);" onclick="announceWinners()">🏆 CÔNG BỐ KẾT QUẢ CUỘC THI</button>
+                <button class="btn btn-surface btn-block" onclick="navigateToSlide(13)">TIẾN TỚI HĐ 7: NHẬT KÝ LÂM SÀNG ▶</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Winners Podium Modal Overlay inside Slide 12 -->
+          <div class="winners-podium-overlay hidden" id="podium-overlay">
+            <div class="podium-content flex-center-col">
+              <h2 style="color: var(--mint); font-family: var(--font-heading); font-weight: 800; font-size: 1.8rem; margin-bottom: 0.75rem; text-shadow: 0 0 15px var(--mint-glow);">🏆 VINH DANH CHUYÊN KHOA XUẤS SẮC</h2>
+              <p style="color: var(--text-muted); font-size: 1rem; margin-bottom: 1rem;">Hội đồng y khoa chứng nhận danh hiệu **Bác sĩ chuyên khoa da liễu** cho 3 nhóm đạt điểm cao nhất:</p>
+              
+              <div class="podium-visual">
+                <!-- Rank 2 -->
+                <div class="podium-col rank-2 flex-center-col">
+                  <span class="podium-award-group" id="winner-rank-2">KHOA 2</span>
+                  <div class="podium-bar bar-2">
+                    <span class="podium-num">2</span>
+                  </div>
+                  <span class="podium-badge">GIẢI NHÌ</span>
+                </div>
+                <!-- Rank 1 -->
+                <div class="podium-col rank-1 flex-center-col">
+                  <span class="podium-award-group" id="winner-rank-1">KHOA 1</span>
+                  <div class="podium-bar bar-1">
+                    <span class="podium-num">1</span>
+                  </div>
+                  <span class="podium-badge">VÔ ĐỊCH</span>
+                </div>
+                <!-- Rank 3 -->
+                <div class="podium-col rank-3 flex-center-col">
+                  <span class="podium-award-group" id="winner-rank-3">KHOA 3</span>
+                  <div class="podium-bar bar-3">
+                    <span class="podium-num">3</span>
+                  </div>
+                  <span class="podium-badge">GIẢI BA</span>
+                </div>
+              </div>
+
+              <button class="btn btn-cyan btn-lg" style="margin-top: 2rem;" onclick="closePodium()">ĐÓNG BẢNG VINH DANH ✕</button>
+            </div>
+          </div>
+
+          <!-- Clinical Cases Integrated Overlay inside Slide 12 -->
+          <div class="clinical-cases-overlay hidden" id="cases-overlay">
+            <div class="cases-overlay-content">
+              <div class="cases-overlay-header">
+                <h2>🩺 ĐẠI HỘI TRANH TÀI CHUYÊN KHOA DA LIỄU</h2>
+                <button class="btn btn-surface btn-sm" onclick="closeClinicalCasesDashboard()">ĐÓNG BẢNG BỆNH ÁN ✕</button>
+              </div>
+              <div class="workspace-grid-integrated">
+                <!-- Case List Sidebar -->
+                <div class="sidebar-cases-integrated" id="cases-list-panel-integrated">
+                  <h2>Danh Sách Ca Bệnh Mở Rộng</h2>
+                  <!-- Tabs dynamically rendered via Javascript -->
+                </div>
+
+                <!-- Dynamic Clinical Viewer Dashboard -->
+                <div class="clinical-dashboard-integrated" id="clinical-dashboard-viewer-integrated">
+                  <div class="panel-badge-integrated">Hội Chẩn Chuyên Sâu</div>
+                  
+                  <div class="patient-wrapper">
+                    <div class="patient-info">
+                      <h2 id="view-patient-name-integrated">Bác Sĩ Đang Đọc Dữ Liệu...</h2>
+                      <p id="view-patient-meta-integrated">Khoa Lâm Sàng Kỹ Thuật Số</p>
+                    </div>
+
+                    <div class="data-section-integrated">
+                      <div class="block-card-integrated symptom-card">
+                        <h4>Triệu Chứng Lâm Sàng</h4>
+                        <div class="block-content" id="view-symptoms-integrated">Vui lòng chọn một ca bệnh từ danh sách bên trái để bắt đầu phiên kiểm tra.</div>
+                      </div>
+                      <div class="block-card-integrated habit-card">
+                        <h4>Thói Quen Vệ Sinh Hiện Tại</h4>
+                        <div class="block-content" id="view-habits-integrated">Hệ thống sẵn sàng nạp dữ liệu phân tích thói quen sinh hoạt.</div>
+                      </div>
+                    </div>
+
+                    <div class="prescription-box" id="prescription-container-integrated">
+                      <h4>Phác Đồ Điều Trị Y Khoa Chuẩn Đạt Khuyến Nghị</h4>
+                      <div class="block-content prescription-blur" id="view-prescription-integrated">
+                        Nội dung phác đồ đang được bảo mật. Nhóm cần đưa ra chẩn đoán và báo cáo trước viện trước khi mở khóa kiểm tra.
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Control Actions Footer -->
+                  <div class="control-area" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; margin-top: 10px;">
+                    <div class="grading-panel" style="display: flex; gap: 8px;">
+                      <button class="btn btn-cyan btn-sm" onclick="adjustActiveGroupScore(50)">+50đ Khoa Trình Bày</button>
+                      <button class="btn btn-surface btn-sm" onclick="adjustActiveGroupScore(-20)">-20đ Khoa Trình Bày</button>
+                    </div>
+                    <div style="display: flex; gap: 15px;">
+                      <button class="btn btn-action btn-reveal btn-sm" onclick="togglePrescriptionRevealIntegrated()">Mở Khóa Toa Thuốc</button>
+                      <button class="btn btn-action btn-submit btn-sm" onclick="triggerNextCaseIntegrated()">Ca Tiếp Theo</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+=======================
+
+<section class="slide" id="slide-13">
+          <div class="slide-layout flex-center-col text-center" style="background: radial-gradient(circle, #0e2025 0%, #050a12 100%);">
+            <div class="transition-title-card flex-center-col" style="border-color: var(--mint); max-width: 600px; width: 100%;">
+              <span class="hd-badge" style="background: rgba(16, 185, 129, 0.15); border-color: var(--mint); color: var(--mint); font-size: 1.1rem; padding: 6px 16px;">HOẠT ĐỘNG 7</span>
+              <h2 style="color: var(--mint); font-family: var(--font-heading); font-size: 2rem; margin: 15px 0;">QUY TẮC PHÒNG HỘI CHẨN TĨNH</h2>
+              <hr class="card-divider" style="background: rgba(16, 185, 129, 0.2); width: 80%; margin: 10px auto;">
+              <span style="font-size: 4rem; display: block; margin: 10px 0;">📓</span>
+              <div style="color: var(--mint); font-weight: 800; font-size: 1.5rem; letter-spacing: 0.05em; line-height: 1.4;">
+                KHÔNG GIAN TĨNH LẶNG - GIỮ BẢO MẬT Y KHOA
+              </div>
+              <p style="color: var(--text-muted); font-size: 1rem; margin-top: 15px; line-height: 1.6;">
+                Cất toàn bộ bảng nhóm, mở "Nhật ký Lâm sàng" cá nhân.<br>Chúng ta sẽ có 3 phút tự suy ngẫm trong im lặng tuyệt đối.
+              </p>
+            </div>
+            <button class="btn btn-cyan btn-pulse btn-lg" style="margin-top: 2rem; background: var(--mint); color: #000; box-shadow: 0 0 15px var(--mint-glow);" onclick="navigateToSlide(14)">BẮT ĐẦU NHẬT KÝ PHẢN TƯ ▶</button>
+          </div>
+        </section>

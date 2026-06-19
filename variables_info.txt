@@ -1,0 +1,286 @@
+5: // --- AUDIO SYNTHESIZER MANAGER (WEB AUDIO API) ---
+6: class AudioSynthManager {
+19:     if (this.ctx.state === 'suspended') {
+20:       this.ctx.resume();
+71:   playSuccess() {
+89:     osc.type = 'triangle';
+137:   playConfettiBang() {
+142:     const data = buffer.getChannelData(0);
+144:       data[i] = Math.random() * 2 - 1;
+173:       document.getElementById('ambient-audio-toggle').innerText = "🔊 PHÁT ÂM THANH BỐI CẢNH";
+177:       document.getElementById('ambient-audio-toggle').innerText = "🔇 TẮT ÂM THANH BỐI CẢNH";
+206: const AudioSynth = new AudioSynthManager();
+208: // --- STATE MANAGEMENT ---
+214:   activeEMRPatient: 'kem',
+215:   emrRevealedSymptoms: {
+216:     kem: new Set(),
+217:     an: new Set(),
+218:     su: new Set()
+229:     { word: "SUA TAM PH 5.5", clue: "Sản phẩm tắm có chỉ số pH dịu nhẹ giúp bảo vệ màng axit tự nhiên của da." },
+230:     { word: "LAN KHU MUI", clue: "Dùng trực tiếp vào vùng da dưới cánh tay khi vùng da ĐÃ KHÔ RÁO hoàn toàn." },
+245:   // Transition beep
+246:   AudioSynth.playBeep(450, 0.08, 'triangle');
+258:   // Update slide metadata and headings
+271:     loadEMRPatientData(AppState.activeEMRPatient);
+311: // --- HOẠT ĐỘNG 1: FINGERPRINT SCANNER & DEPT SELECTOR ---
+312: let scanTimer = null;
+313: let scanProgress = 0;
+316: const scanProgressBar = document.getElementById('scan-progress-bar');
+317: const scannerInstructionText = document.getElementById('scanner-instruction-text');
+318: const mainScannerCard = document.getElementById('main-scanner-card');
+327:     // Choose department and trigger role reveal
+334:       desc = "Bạn đeo thẻ chức danh màu ĐỎ. Có nhiệm vụ điều hành hội đồng y khoa, phân công thuyết trình và ký số duyệt phác đồ cuối cùng.";
+338:       desc = "Bạn đeo thẻ chức danh màu XANH LỤC. Có nhiệm vụ nghiên cứu cẩm nang bệnh học, giải trình cơ chế vi khuẩn/hormone trên da.";
+342:       desc = "Bạn đeo thẻ chức danh màu VÀNG. Có nhiệm vụ ghi nhận các triệu chứng lâm sàng và thực hành kéo thả sắp xếp phác đồ tắm.";
+356:     btn.style.boxShadow = `0 0 15px ${dept === 'A' ? 'var(--coral)' : (dept === 'B' ? 'var(--cyan)' : 'var(--amber)')}`;
+357:     btn.style.borderColor = dept === 'A' ? 'var(--coral)' : (dept === 'B' ? 'var(--cyan)' : 'var(--amber)');
+359:     // Start auto-fingerprint animation to simulate secure scanner
+360:     scanProgress = 0;
+361:     scanProgressBar.style.width = '0%';
+362:     scannerInstructionText.innerText = "ĐANG XÁC THỰC SINH TRẮC HỌC...";
+363:     scannerInstructionText.style.color = "var(--cyan)";
+366:       scanProgress += 10;
+367:       if (scanProgress > 100) scanProgress = 100;
+368:       scanProgressBar.style.width = `${scanProgress}%`;
+369:       AudioSynth.playBeep(400 + (scanProgress * 6), 0.04, 'triangle');
+371:       if (scanProgress >= 100) {
+380:   fingerprintBtn.addEventListener('mousedown', startScan);
+381:   fingerprintBtn.addEventListener('mouseup', cancelScan);
+382:   fingerprintBtn.addEventListener('mouseleave', cancelScan);
+386:     startScan();
+388:   fingerprintBtn.addEventListener('touchend', cancelScan);
+391: function startScan() {
+393:   scanProgress = 0;
+394:   scanProgressBar.style.width = '0%';
+395:   scannerInstructionText.innerText = "ĐANG XÁC THỰC SINH TRẮC HỌC...";
+396:   scannerInstructionText.style.color = "var(--cyan)";
+398:   scanTimer = setInterval(() => {
+399:     scanProgress += 2.5;
+400:     if (scanProgress > 100) scanProgress = 100;
+402:     scanProgressBar.style.width = `${scanProgress}%`;
+405:     AudioSynth.playBeep(400 + (scanProgress * 6), 0.05, 'triangle');
+407:     if (scanProgress >= 100) {
+408:       clearInterval(scanTimer);
+414: function cancelScan() {
+415:   if (scanProgress < 100) {
+416:     clearInterval(scanTimer);
+417:     scanProgress = 0;
+418:     scanProgressBar.style.width = '0%';
+419:     scannerInstructionText.innerText = "ẤN VÀ GIỮ VÂN TAY TRONG 2 GIÂY ĐỂ ĐĂNG NHẬP";
+420:     scannerInstructionText.style.color = "var(--text-muted)";
+425:   AudioSynth.playSuccess();
+427:   // Visual success feedback
+428:   mainScannerCard.style.borderColor = "var(--mint)";
+429:   mainScannerCard.style.boxShadow = "0 0 20px var(--mint-glow)";
+430:   scannerInstructionText.innerText = "XÁC THỰC DANH TÍNH BÁC SĨ THÀNH CÔNG!";
+431:   scannerInstructionText.style.color = "var(--mint)";
+434:     { name: "BÁC SĨ TRƯỞNG KHOA DA LIỄU", icon: "🩺", desc: "Bạn đeo thẻ chức danh màu ĐỎ. Có nhiệm vụ điều hành hội đồng y khoa, phân phối công việc và ký số duyệt phác đồ cuối cùng." },
+435:     { name: "BÁC SĨ CHUYÊN KHOA DA LIỄU", icon: "🧬", desc: "Bạn đeo thẻ chức danh màu XANH LỤC. Có nhiệm vụ nghiên cứu cẩm nang bệnh học, giải trình cơ chế vi khuẩn/hormone trên da." },
+436:     { name: "BÁC SĨ NỘI TRÚ DA LIỄU", icon: "🏥", desc: "Bạn đeo thẻ chức danh màu VÀNG. Có nhiệm vụ ghi nhận các triệu chứng lâm sàng và thực hành kéo thả sắp xếp phác đồ tắm." }
+438:   const selectedRole = roles[Math.floor(Math.random() * roles.length)];
+441:   // Update header and modal
+475:     // Sync all tab buttons across Slide 4 and Slide 5 EMR elements
+483:     loadEMRPatientData(caseName);
+487: function loadEMRPatientData(caseName) {
+495:     kem: "Vì sao nách có mùi và ra nhiều mồ hôi?",
+496:     an: "Vì sao bệnh nhân lại có mùi hôi ở chân?",
+497:     su: "Vì sao lưng và gáy lên nhiều mụn?"
+506:   const patientDatabase = {
+507:     kem: {
+508:       name: "BỆNH NHÂN: KEM-2013-A (KHOA NỘI TIẾT DA)",
+512:       habit: "Thường xuyên xịt liên tục các loại nước hoa xịt khử mùi thô của người lớn đè trực tiếp lên vùng nách khi đang đẫm mồ hôi.",
+519:     an: {
+520:       name: "BỆNH NHÂN: AN-2012-B (KHOA NẤM DA LÂM SÀNG)",
+531:     su: {
+532:       name: "BỆNH NHÂN: SU-2013-C (KHOA MỤN BỆNH LÝ)",
+539:         { id: "s2", label: "🧽 Da trầy rách kích ứng do chà xát", title: "KÍCH ỨNG DA CƠ HỌC", desc: "Dùng lực mạnh cọ xát làm rách nhân mụn, lây lan ổ viêm sang vùng da lành xung quanh." },
+540:         { id: "s3", label: "🩹 Tổn thương hàng rào bảo vệ da", title: "PHÁ HỦY MÀNG AXIT BẢO VỆ", desc: "Xà phòng kiềm mạnh phá vỡ độ pH lý tưởng 5.5, làm da mất nước và suy giảm khả năng đề kháng tự nhiên." }
+545:   const patient = patientDatabase[caseName];
+551:       <span class="emr-id-badge">NOVA DERMATOLOGY HOSPITAL</span>
+556:         <span class="stat-title">TUỔI BỆNH NHÂN</span>
+557:         <span class="stat-value">${patient.age}</span>
+560:         <span class="stat-title">CHỈ SỐ TỰ TIN</span>
+561:         <span class="stat-value text-red" id="emr-confidence-val">${patient.confidence}</span>
+564:         <span class="stat-title">TÌNH TRẠNG CHẨN ĐOÁN</span>
+565:         <span class="stat-value text-pink" style="font-size: 0.72rem;">${patient.status}</span>
+571:       <strong style="color: var(--electric-cyan); font-size: 0.8rem; display: block; margin-bottom: 4px;">DỮ LIỆU THÓI QUEN:</strong>
+576:       <h4 class="section-sub">TRIỆU CHỨNG LÂM SÀNG BỆNH ÁN (ẤN ĐỂ GIẢI MÃ)</h4>
+581:           const isRevealed = AppState.emrRevealedSymptoms[caseName].has(btn.id);
+585:                 <span>🔒</span> TRIỆU CHỨNG LÂM SÀNG BỆNH ÁN (ẤN ĐỂ GIẢI MÃ)
+594:                 ${isRevealed ? btn.label : '<span>🔒</span> TRIỆU CHỨNG LÂM SÀNG BỆNH ÁN (ẤN ĐỂ GIẢI MÃ)'}
+602:         <div class="symptom-details-card hidden" id="symptom-details-card-5" style="margin-top: 15px; border-left: 4px solid var(--electric-cyan); background: rgba(0, 240, 255, 0.05); padding: 0.75rem; border-radius: 0 8px 8px 0;">
+603:           <h5 class="details-title" id="symptom-detail-title-5" style="color: var(--electric-cyan); font-weight: bold; font-size: 0.9rem; margin-bottom: 4px;">...</h5>
+614:   AppState.emrRevealedSymptoms[patientKey].add(symptomId);
+620:     const patientDatabase = {
+621:       kem: {
+628:       an: {
+635:       su: {
+643:     const btnData = patientDatabase[patientKey].symptomButtons.find(b => b.id === symptomId);
+660:   if (AppState.emrRevealedSymptoms[patientKey].size === 3) {
+661:     if (!AppState.emrRevealedSymptoms[patientKey].pointsAwarded) {
+662:       AppState.emrRevealedSymptoms[patientKey].pointsAwarded = true;
+665:       AudioSynth.playSuccess();
+686:       hbTimerStart.className = "btn btn-sm btn-cyan";
+702:           AudioSynth.playSuccess();
+705:           hbTimerStart.className = "btn btn-sm btn-cyan";
+718:     hbTimerStart.className = "btn btn-sm btn-cyan";
+733: // --- HOẠT ĐỘNG 3: LASER ANATOMY ---
+737:     triggerAnatomyLaser(spotType);
+744:     triggerAnatomyLaser('all');
+748: function triggerAnatomyLaser(spotType) {
+750:   const detailsCard = document.getElementById('anatomy-details-card');
+751:   const statusBar = document.getElementById('anatomy-status-bar');
+752:   const title = document.getElementById('anatomy-card-title');
+753:   const desc = document.getElementById('anatomy-card-desc');
+760:       status: "XÁC ĐỊNH: ANDROGEN HORMONE",
+761:       title: "HORMONE ANDROGEN TUỔI DẬY THÌ",
+762:       desc: "Bước vào tuổi dậy thì, hệ nội tiết giải phóng Androgen mạnh mẽ. Hormone này kích hoạt toàn diện tuyến dầu bã nhờn phát triển và thúc đẩy hoạt động tiết mồ hôi vùng nách, bẹn và bắp chân tăng vọt."
+812:     statusBar.style.background = "var(--cyan)";
+834:   { id: "trap-3", label: "Đi tất ẩm ngày hôm trước", desc: "Tiết kiệm thời gian, dùng lại tất ẩm bẩn của hôm qua.", icon: "🧦", isTrap: true }
+838:   phase: 1, // 1: Destroy traps, 2: Arrange steps
+841:   arrangedSteps: [null, null, null, null, null, null],
+849:   routineGameState.arrangedSteps = [null, null, null, null, null, null];
+852:   routineGameState.shuffledCards = [...routineCardsDatabase].sort(() => Math.random() - 0.5);
+882:   // Reset titles and desc
+903:     const isTrapClass = card.isTrap ? 'danger-card-style' : '';
+905:       <div class="large-game-card ${isTrapClass}" id="card-${card.id}" onclick="handleCardClickPhase1('${card.id}')">
+906:         <span class="card-icon">${card.icon}</span>
+914: window.handleCardClickPhase1 = function(cardId) {
+942:       AudioSynth.playSuccess();
+944:         feedbackEl.innerText = "🎉 Chẩn đoán chính xác! Đã loại bỏ 3 bẫy nguy hại. Đang chuyển sang Giai đoạn 2...";
+947:       setTimeout(transitionToPhase2, 1500);
+973: function transitionToPhase2() {
+1006:   const shuffledSafe = [...safeCards].sort(() => Math.random() - 0.5);
+1009:     const isPlaced = routineGameState.arrangedSteps.includes(card.id) ? 'placed' : '';
+1012:         <span class="card-icon">${card.icon}</span>
+1021:   if (routineGameState.arrangedSteps.includes(cardId)) return;
+1024:   const emptyIdx = routineGameState.arrangedSteps.findIndex(s => s === null);
+1033:   routineGameState.arrangedSteps[emptyIdx] = cardId;
+1057:   if (checkBtn && !routineGameState.arrangedSteps.includes(null)) {
+1067:   const cardId = routineGameState.arrangedSteps[idx];
+1071:   routineGameState.arrangedSteps[idx] = null;
+1091:   // Hide check button since we now have an empty slot
+1104:     const cardId = routineGameState.arrangedSteps[i];
+1126:     AudioSynth.playSuccess();
+1151: // --- HOẠT ĐỘNG 6: CLINICAL COMPETITION ANNOUNCEMENT & PODIUM ---
+1152: function announceWinners() {
+1165:   const rank1 = scores[0];
+1166:   const rank2 = scores[1];
+1167:   const rank3 = scores[2];
+1169:   const winner1El = document.getElementById('winner-rank-1');
+1170:   const winner2El = document.getElementById('winner-rank-2');
+1171:   const winner3El = document.getElementById('winner-rank-3');
+1173:   if (winner1El) winner1El.innerText = `KHOA ${rank1.group}\n(${rank1.score}đ)`;
+1174:   if (winner2El) winner2El.innerText = `KHOA ${rank2.group}\n(${rank2.score}đ)`;
+1175:   if (winner3El) winner3El.innerText = `KHOA ${rank3.group}\n(${rank3.score}đ)`;
+1182:   AudioSynth.playSuccess();
+1185: window.announceWinners = announceWinners;
+1202:   const container = document.getElementById('puzzle-blanks-container');
+1208:     const blank = document.createElement('div');
+1210:       blank.className = 'letter-blank space-blank';
+1212:       blank.className = 'letter-blank';
+1213:       blank.setAttribute('data-char', char);
+1214:       blank.innerText = '_';
+1216:     container.appendChild(blank);
+1261:     document.querySelectorAll(`.letter-blank[data-char="${char}"]`).forEach(blank => {
+1262:       blank.innerText = char;
+1263:       blank.classList.add('revealed');
+1270:     shakeElement(document.getElementById('puzzle-blanks-container'));
+1279:         document.getElementById('puzzle-feedback-text').innerText = "Đang chờ giải mã đơn thuốc...";
+1286:   const blanks = document.querySelectorAll('.letter-blank:not(.space-blank)');
+1288:   blanks.forEach(b => {
+1293:     AudioSynth.playSuccess();
+1304:         feedback.innerText = "Đang chờ giải mã đơn thuốc...";
+1307:         // Successfully unlocked all lifestyle words, proceed to Slide 21
+1340: let startAngle = 0;
+1343: let spinAngleStart = 10;
+1348:   const canvas = document.getElementById('spinner-wheel-canvas');
+1349:   if (!canvas) return;
+1350:   const ctx = canvas.getContext('2d');
+1359:     const angle = startAngle + i * arc;
+1363:     ctx.arc(140, 140, outsideRadius, angle, angle + arc, false);
+1364:     ctx.arc(140, 140, insideRadius, angle + arc, angle, true);
+1376:     ctx.translate(140 + Math.cos(angle + arc / 2) * textRadius, 
+1377:                   140 + Math.sin(angle + arc / 2) * textRadius);
+1378:     ctx.rotate(angle + arc / 2 + Math.PI / 2);
+1382:     ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+1391:   ctx.strokeStyle = varColorHex('--cyan');
+1396:   ctx.fillStyle = varColorHex('--cyan');
+1398:   ctx.fillText("✚", 140 - ctx.measureText("✚").width / 2, 146);
+1405:   spinAngleStart = Math.random() * 10 + 12;
+1407:   spinTimeTotal = Math.random() * 3000 + 4000;
+1418:   const spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
+1419:   startAngle += (spinAngle * Math.PI / 180);
+1421:   const currentTickIndex = Math.floor((startAngle % (Math.PI*2)) / arc);
+1435:   const degrees = startAngle * 180 / Math.PI + 90;
+1440:   document.getElementById('spinner-result-text').innerText = `${winner} HỘI CHẨN!`;
+1441:   AudioSynth.playSuccess();
+1498:       refTimerStart.className = "btn btn-cyan";
+1511:           AudioSynth.playSuccess();
+1526:     refTimerStart.className = "btn btn-cyan";
+1550: const canvasSig = document.getElementById('signature-canvas');
+1554: if (canvasSig) {
+1555:   sigCtx = canvasSig.getContext('2d');
+1560:   canvasSig.addEventListener('mousedown', (e) => {
+1562:     const pos = getCanvasPos(canvasSig, e);
+1567:   canvasSig.addEventListener('mousemove', (e) => {
+1569:     const pos = getCanvasPos(canvasSig, e);
+1574:   canvasSig.addEventListener('mouseup', () => { drawing = false; });
+1576:   canvasSig.addEventListener('touchstart', (e) => {
+1578:     const pos = getCanvasPos(canvasSig, e.touches[0]);
+1583:   canvasSig.addEventListener('touchmove', (e) => {
+1585:     const pos = getCanvasPos(canvasSig, e.touches[0]);
+1590:   canvasSig.addEventListener('touchend', () => { drawing = false; });
+1593: function getCanvasPos(canvas, event) {
+1594:   const rect = canvas.getBoundingClientRect();
+1611: const confettiCanvas = document.getElementById('confetti-canvas');
+1615: if (confettiCanvas) {
+1616:   confettiCtx = confettiCanvas.getContext('2d');
+1620:   AudioSynth.playConfettiBang();
+1622:   confettiCanvas.width = window.innerWidth;
+1623:   confettiCanvas.height = window.innerHeight;
+1629:       x: Math.random() * confettiCanvas.width,
+1630:       y: Math.random() * -confettiCanvas.height,
+1631:       size: Math.random() * 8 + 5,
+1632:       color: paletteColors[Math.floor(Math.random()*paletteColors.length)],
+1633:       speedY: Math.random() * 4 + 4,
+1634:       speedX: Math.random() * 2 - 1,
+1635:       rotation: Math.random() * 360,
+1636:       rotationSpeed: Math.random() * 4 - 2
+1640:   animateConfetti();
+1647: function animateConfetti() {
+1649:     if (confettiCtx) confettiCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+1653:   confettiCtx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+1662:     confettiCtx.translate(p.x, p.y);
+1667:     if (p.y > confettiCanvas.height) {
+1669:       p.x = Math.random() * confettiCanvas.width;
+1673:   requestAnimationFrame(animateConfetti);
+1694: // --- GLOBAL NAVIGATION AND SYSTEM WIDGETS ---
+1732:     // Re-render canvases if size changes
+1736:         confettiCanvas.width = window.innerWidth;
+1737:         confettiCanvas.height = window.innerHeight;
+1806:         AudioSynth.playSuccess();
+1876:   el.classList.add('shake-animation');
+1878:     el.classList.remove('shake-animation');
+1882: // Converts CSS var color to actual HEX color for Canvas drawings
+1887:   // Standard CSS hex mapping fallback
+1889:     '--cyan': '#06B6D4',
+1907:     meta: "Chức danh giả lập: Thành viên Đội tuyển Cầu lông trường",
+1909:     habits: "Trước mỗi trận đấu, khi nách đang đẫm mồ hôi, bạn thường xuyên xịt liên tục các loại nước hoa xịt khử mùi thô của người lớn đè trực tiếp lên để che mùi cơ thể.",
+1914:     name: "Bệnh nhân: Bác sĩ An (14 tuổi)",
+1915:     meta: "Chức danh giả lập: Học sinh khối Trung học",
+1916:     symptoms: "Da mặt vùng hai bên má, cằm và xung xung quanh vùng miệng xuất hiện dày đặc các loại mụn đầu đen, mụn cám bít tắc lỗ chân lông và một số nốt mụn mủ sưng đỏ đau nhức.",
+1917:     habits: "Đeo một chiếc khẩu trang vải liên tục từ ngày này qua ngày khác khi đi học và đi chơi mà không hề giặt giũ vệ sinh. Mỗi khi thấy mụn nổi lên, bạn thường lấy tay không cạy, nặn trực tiếp ngay tại lớp học.",
+1918:     prescription: "Bảo vệ hàng rào biểu bì mặt: Tuyệt đối nghiêm cấm cạy nặn mụn bằng tay chưa sát khuẩn. Thực hiện rửa mặt nhẹ nhàng bằng sữa rửa mặt hoặc xà phòng có độ cân bằng pH lý tưởng 5.5 ở Bước 4. Thay mới khẩu trang y tế/khẩu trang vải sạch hàng ngày để triệt tiêu ổ vi khuẩn tích tụ từ hơi thở và khói bụi biểu bì."
+1923:     meta: "Chức danh giả lập: Học sinh đam mê bơi lội",
+1924:     symptoms: "Toàn bộ vùng da ở lưng và ngực bị ngứa ngáy râm ran liên tục, bề mặt xuất hiện các sẩn đỏ li ti sưng viêm rải rác xung quanh các nang lông.",
+1925:     habits: "Sau khi từ bể bơi công cộng bước lên, bạn chỉ dội nhanh cơ thể dưới vòi nước sạch khoảng 10 giây rồi mặc quần áo đi thẳng về nhà luôn, để đến tối muộn mới tắm kỹ lại bằng xà phòng.",
+1926:     prescription: "Xử lý viêm nang lông lưng ngực: Clo hóa chất và vi khuẩn bể bơi lưu giữ lâu ngày phá hủy màng bảo vệ da. Yêu cầu tắm kỹ ngay sau khi bơi xong. Áp dụng chuẩn Bước 4 (Xoa xà phòng pH 5.5 toàn thân); Đặc trị Bước 5 (Tắm tráng thật kỹ các vùng dễ bám bẩn tích tụ vi khuẩn bao gồm Lưng, Ngực, Gáy, Mông). Lau khô hoàn toàn trước khi mặc đồ mới."
+1931:     meta: "Chức danh giả lập: Học sinh khối 8",
+1933:     habits: "Thường xuyên mặc quần jeans dày bó sát cơ thể (skinny jeans) liên tục kể cả trong những ngày hè oi bức, nóng nực. Do quần chất liệu dày lười giặt nên thường mặc lại quần jeans cũ 2-3 lần mới đem giặt.",
+1934:     prescription: "Điều trị nấm kẽ và nếp gấp da: Vi khuẩn và vi nấm cực kỳ ưa thích độ ẩm cao ở nếp gấp bị bít tắc bởi đồ bó. Áp dụng Bước 4: Vệ sinh vùng kín và vùng bẹn bằng nước sạch (không chà xà phòng thô phá hủy màng pH nhạy cảm). Thay đổi lối sống: Đổi sang mặc quần áo, đồ lót chất liệu cotton co giãn thông thoáng; tuyệt đối không mặc lại quần áo lót/quần jeans cũ của ngày hôm trước."
+1939:     meta: "Chức danh giả lập: Thành viên Đội bóng đá",
+1971:   const container = document.getElementById('cases-list-panel-integrated');
+1974:   container.innerHTML = '<h2>Danh Sách Ca Bệnh Mở Rộng</h2>';
+2022:   AudioSynth.playSuccess();
+2050:     AudioSynth.playSuccess();

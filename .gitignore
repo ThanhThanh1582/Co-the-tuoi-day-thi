@@ -1,0 +1,7 @@
+*.bak
+*.tmp
+*.log
+.system_generated/
+validate_html.py
+find_roles.py
+list_roles_html.py

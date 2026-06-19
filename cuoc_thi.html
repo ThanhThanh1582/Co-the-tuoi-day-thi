@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đại Hội Tranh Tài Chuyên Khoa Da Liễu - Nova Hospital</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Be+Vietnam+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #05020C;
+            --bg-nebula: #110A24;
+            --bg-panel: rgba(30, 41, 59, 0.7);
+            --electric-cyan: #00F0FF;
+            --cosmic-pink: #FF007A;
+            --neon-mint: #10B981;
+            --digital-coral: #F43F5E;
+            --nova-gold: #FFD700;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: var(--bg-main);
+            color: #E2E8F0;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 20%, #4E148C 0%, var(--bg-main) 60%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        h1, h2, h3, .font-tech {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+
+        /* Top Navigation Header */
+        .header-terminal {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(17, 10, 36, 0.8);
+            border: 1px solid var(--electric-cyan);
+            border-radius: 12px;
+            padding: 15px 30px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+        }
+
+        .header-title h1 {
+            color: #FFF;
+            font-size: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-title span {
+            color: var(--electric-cyan);
+            font-size: 12px;
+            display: block;
+            margin-top: 4px;
+        }
+
+        /* Score & Timer HUD */
+        .hud-display {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .timer-box {
+            background: rgba(244, 63, 94, 0.1);
+            border: 1px solid var(--digital-coral);
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: var(--digital-coral);
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .score-board {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--neon-mint);
+            padding: 8px 20px;
+            border-radius: 8px;
+            color: var(--neon-mint);
+            font-size: 16px;
+        }
+
+        /* Main Workspace Grid */
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 25px;
+            height: calc(100vh - 120px);
+        }
+
+        /* Sidebar Sidebar List Cases */
+        .sidebar-cases {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+        }
+
+        .sidebar-cases h2 {
+            font-size: 16px;
+            color: var(--electric-cyan);
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .case-tab {
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid #475569;
+            padding: 15px;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .case-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .case-tab.active {
+            background: rgba(0, 240, 255, 0.05);
+            border-left-color: var(--electric-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+        }
+
+        .case-tab h3 {
+            font-size: 15px;
+            color: #FFF;
+            margin-bottom: 4px;
+        }
+
+        .case-tab p {
+            font-size: 12px;
+            color: #94A3B8;
+        }
+
+        /* Center Dashboard Clinical View */
+        .clinical-dashboard {
+            background: var(--bg-panel);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .panel-badge {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: rgba(255, 0, 122, 0.1);
+            border: 1px solid var(--cosmic-pink);
+            color: var(--cosmic-pink);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .patient-info {
+            margin-bottom: 25px;
+        }
+
+        .patient-info h2 {
+            font-size: 28px;
+            color: #FFF;
+            margin-bottom: 5px;
+        }
+
+        .patient-info p {
+            color: var(--electric-cyan);
+            font-size: 14px;
+        }
+
+        /* Data Blocks */
+        .data-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+
+        .block-card {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .block-card h4 {
+            font-size: 14px;
+            color: #94A3B8;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .block-card.symptom-card h4 { color: var(--digital-coral); }
+        .block-card.habit-card h4 { color: var(--nova-gold); }
+
+        .block-content {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #E2E8F0;
+        }
+
+        /* Interaction Panel Prescription */
+        .prescription-box {
+            background: rgba(16, 185, 129, 0.03);
+            border: 1px dashed var(--neon-mint);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+
+        .prescription-box h4 {
+            color: var(--neon-mint);
+            margin-bottom: 8px;
+        }
+
+        .prescription-blur {
+            filter: blur(6px);
+            user-select: none;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+
+        .prescription-box.reveal .prescription-blur {
+            filter: blur(0);
+            user-select: auto;
+            pointer-events: auto;
+        }
+
+        /* Control Area Bottom Button */
+        .control-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 15px;
+        }
+
+        .btn-action {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .btn-submit {
+            background: var(--electric-cyan);
+            color: #05020C;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+        }
+
+        .btn-submit:hover {
+            background: #FFF;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.5);
+        }
+
+        .btn-reveal {
+            background: transparent;
+            border: 1px solid var(--neon-mint);
+            color: var(--neon-mint);
+        }
+
+        .btn-reveal:hover {
+            background: var(--neon-mint);
+            color: #FFF;
+        }
+
+        /* Interactive Score Buttons for Teacher */
+        .grading-panel {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-grade {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .btn-plus { background: var(--neon-mint); color: white; }
+        .btn-minus { background: var(--digital-coral); color: white; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body>
+
+    <!-- Header Terminal HUD -->
+    <div class="header-terminal">
+        <div class="header-title">
+            <h1>Đại Hội Tranh Tài Chuyên Khoa Da Liễu</h1>
+            <span>Hệ Thống Quản Lý Ca Bệnh & Hội Chẩn Lâm Sàng Vệ Sinh Tuổi Dậy Thì v4.0</span>
+        </div>
+        <div class="hud-display">
+            <div class="score-board">Điểm Tích Lũy Viện: <span id="score-val">0</span> XP</div>
+            <div class="timer-box" id="countdown-clock">05:00</div>
+        </div>
+    </div>
+
+    <!-- Main Workspace Area -->
+    <div class="workspace-grid">
+        
+        <!-- Case List Sidebar -->
+        <div class="sidebar-cases" id="cases-list-panel">
+            <h2>Danh Sách Ca Bệnh Mở Rộng</h2>
+            <!-- Tabs dynamically rendered via Javascript -->
+        </div>
+
+        <!-- Dynamic Clinical Viewer Dashboard -->
+        <div class="clinical-dashboard" id="clinical-dashboard-viewer">
+            <div class="panel-badge">Hội Chẩn Chuyên Sâu</div>
+            
+            <div class="patient-wrapper">
+                <div class="patient-info">
+                    <h2 id="view-patient-name">Bác Sĩ Đang Đọc Dữ Liệu...</h2>
+                    <p id="view-patient-meta">Khoa Lâm Sàng Kỹ Thuật Số</p>
+                </div>
+
+                <div class="data-section">
+                    <div class="block-card symptom-card">
+                        <h4>Triệu Chứng Lâm Sàng</h4>
+                        <div class="block-content" id="view-symptoms">Vui lòng chọn một ca bệnh từ danh sách bên trái để bắt đầu phiên kiểm tra.</div>
+                    </div>
+                    <div class="block-card habit-card">
+                        <h4>Thói Quen Vệ Sinh Hiện Tại</h4>
+                        <div class="block-content" id="view-habits">Hệ thống sẵn sàng nạp dữ liệu phân tích thói quen sinh hoạt.</div>
+                    </div>
+                </div>
+
+                <div class="prescription-box" id="prescription-container">
+                    <h4>Phác Đồ Điều Trị Y Khoa Chuẩn Đạt Khuyến Nghị</h4>
+                    <div class="block-content prescription-blur" id="view-prescription">
+                        Nội dung phác đồ đang được bảo mật. Nhóm cần đưa ra chẩn đoán và báo cáo trước viện trước khi mở khóa kiểm tra.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Control Actions Footer -->
+            <div class="control-area">
+                <div class="grading-panel">
+                    <button class="btn-grade btn-plus" onclick="updateScore(50)">+50 XP (Đạt)</button>
+                    <button class="btn-grade btn-minus" onclick="updateScore(-20)">-20 XP (Sai Lầm)</button>
+                </div>
+                <div style="display: flex; gap: 15px;">
+                    <button class="btn-action btn-reveal" onclick="togglePrescriptionReveal()">Mở Khóa Toa Thuốc</button>
+                    <button class="btn-action btn-submit" onclick="triggerNextCase()">Ca Tiếp Theo</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        // Data Store containing the 5 expanded medical case sheets
+        const clinicalCasesData = [
+            {
+                id: 4,
+                name: "Bệnh nhân: Bác sĩ Nam (13 tuổi)",
+                meta: "Chức danh giả lập: Thành viên Đội tuyển Cầu lông trường",
+                symptoms: "Vùng da dưới cánh tay (nách) xuất hiện nhiều mụn nước nhỏ, ngứa ngáy, da bị sạm màu và có mùi hôi rất đậm sau mỗi buổi tập thể thao cường độ cao.",
+                habits: "Trước mỗi trận đấu, khi nách đang đẫm mồ hôi, bạn thường xuyên xịt liên tục các loại nước hoa xịt khử mùi thô của người lớn đè trực tiếp lên để che mùi cơ thể.",
+                prescription: "Khắc chế vi khuẩn vùng nách: Tuyệt đối chống chỉ định dùng nước hoa/xịt khử mùi khi cơ thể chưa sạch. Thực hiện Quy trình tắm 6 bước: Chà sạch nách nhẹ nhàng ở Bước 4; Dùng khăn cá nhân lau THẬT KHÔ vùng nách ở Bước 6. Sau khi da khô mới áp dụng lăn khử mùi kháng khuẩn dành riêng cho lứa tuổi dậy thì. Thay mới giặt ngay quần áo lót thể thao sau tập."
+            },
+            {
+                id: 5,
+                name: "Bệnh nhân: Bác sĩ An (14 tuổi)",
+                meta: "Chức danh giả lập: Học sinh khối Trung học",
+                symptoms: "Da mặt vùng hai bên má, cằm và xung quanh vùng miệng xuất hiện dày đặc các loại mụn đầu đen, mụn cám bít tắc lỗ chân lông và một số nốt mụn mủ sưng đỏ đau nhức.",
+                habits: "Đeo một chiếc khẩu trang vải liên tục từ ngày này qua ngày khác khi đi học và đi chơi mà không hề giặt giũ vệ sinh. Mỗi khi thấy mụn nổi lên, bạn thường lấy tay không cạy, nặn trực tiếp ngay tại lớp học.",
+                prescription: "Bảo vệ hàng rào biểu bì mặt: Tuyệt đối nghiêm cấm cạy nặn mụn bằng tay chưa sát khuẩn. Thực hiện rửa mặt nhẹ nhàng bằng sữa rửa mặt hoặc xà phòng có độ cân bằng pH lý tưởng 5.5 ở Bước 4. Thay mới khẩu trang y tế/khấu trang vải sạch hàng ngày để triệt tiêu ổ vi khuẩn tích tụ từ hơi thở và khói bụi biểu bì."
+            },
+            {
+                id: 6,
+                name: "Bệnh nhân: Bác sĩ Phong (12 tuổi)",
+                meta: "Chức danh giả lập: Học sinh đam mê bơi lội",
+                symptoms: "Toàn bộ vùng da ở lưng và ngực bị ngứa ngáy râm ran liên tục, bề mặt xuất hiện các sẩn đỏ li ti sưng viêm rải rác xung quanh các nang lông.",
+                habits: "Sau khi từ bể bơi công cộng bước lên, bạn chỉ dội nhanh cơ thể dưới vòi nước sạch khoảng 10 giây rồi mặc quần áo đi thẳng về nhà luôn, để đến tối muộn mới tắm kỹ lại bằng xà phòng.",
+                prescription: "Xử lý viêm nang lông lưng ngực: Clo hóa chất và vi khuẩn bể bơi lưu giữ lâu ngày phá hủy màng bảo vệ da. Yêu cầu tắm kỹ ngay sau khi bơi xong. Áp dụng chuẩn Bước 4 (Xoa xà phòng pH 5.5 toàn thân); Đặc trị Bước 5 (Tắm tráng thật kỹ các vùng dễ bám bẩn tích tụ vi khuẩn bao gồm Lưng, Ngực, Gáy, Mông). Lau khô hoàn toàn trước khi mặc đồ mới."
+            },
+            {
+                id: 7,
+                name: "Bệnh nhân: Bác sĩ Linh (14 tuổi)",
+                meta: "Chức danh giả lập: Học sinh khối 8",
+                symptoms: "Vùng bẹn da nhạy cảm và nếp gấp sau hai đầu gối bị ngứa rát dữ dội, xuất hiện các mảng da tổn thương mẩn đỏ, tróc vảy mỏng nhẹ.",
+                habits: "Thường xuyên mặc quần jeans dày bó sát cơ thể (skinny jeans) liên tục kể cả trong những ngày hè oi bức, nóng nực. Do quần chất liệu dày lười giặt nên thường mặc lại quần jeans cũ 2-3 lần mới đem giặt.",
+                prescription: "Điều trị nấm kẽ và nếp gấp da: Vi khuẩn và vi nấm cực kỳ ưa thích độ ẩm cao ở nếp gấp bị b bị bít tắc bởi đồ bó. Áp dụng Bước 4: Vệ sinh vùng kín và vùng bẹn bằng nước sạch (không chà xà phòng thô phá hủy màng pH nhạy cảm). Thay đổi lối sống: Đổi sang mặc quần áo, đồ lót chất liệu cotton co giãn thông thoáng; tuyệt đối không mặc lại quần áo lót/quần jeans cũ của ngày hôm trước."
+            },
+            {
+                id: 8,
+                name: "Bệnh nhân: Bác sĩ Duy (15 tuổi)",
+                meta: "Chức danh giả lập: Thành viên Đội bóng đá",
+                symptoms: "Lòng bàn chân và các khu vực kẽ ngón chân bị bợt trắng da, ẩm ướt, ngứa rát vô cùng dữ dội và bốc mùi hôi thối nồng nặc đặc trưng mỗi khi cởi giày.",
+                habits: "Sau mỗi buổi tập luyện đá bóng, bạn thường xuyên tiện tay nhét nguyên đôi tất cũ đẫm mồ hôi vào bên trong giày thể thao, ngày hôm sau lại tiếp tục lôi ra đi tiếp mà không hề giặt sạch.",
+                prescription: "Triệt tiêu vi khuẩn mùi hôi chân: Thay đổi thói quen cốt lõi. Áp dụng triệt để Bước 6: Sau khi tắm xong, dùng khăn khô lau thật kỹ lòng bàn chân và từng kẽ ngón chân. Tuyệt đối nghiêm cấm đi lại tất cũ của ngày hôm trước; giặt sạch phơi khô tất sau mỗi lần đeo. Giày thể thao cần được phơi nắng hoặc xịt khuẩn định kỳ để giữ môi trường luôn khô ráo."
+            }
+        ];
+
+        let currentActiveIndex = 0;
+        let scoreXPCounter = 0;
+        let timerSecondsTotal = 300; // 5 minutes standard round
+        let timerIntervalNode = null;
+
+        // Sound Synthesizer Engine using Web Audio API for Retro Cyber Beeps
+        let audioCtx = null;
+        function playCyberSound(type) {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            if (type === 'click') {
+                osc.type = 'sine'; osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+            } else if (type === 'success') {
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(440, audioCtx.currentTime); osc.frequency.setValueAtTime(880, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else if (type === 'reveal') {
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(1200, audioCtx.currentTime); osc.frequency.linearRampToValueAtTime(400, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            }
+        }
+
+        // Initialize App Component Setup
+        function initAppDashboard() {
+            renderSidebarTabs();
+            loadTargetCaseData(0);
+            startCountdownEngine();
+        }
+
+        // Render Sidebar Menu Tabs Component
+        function renderSidebarTabs() {
+            const container = document.getElementById('cases-list-panel');
+            // Keep the header h2, clear the rest
+            container.innerHTML = '<h2>Danh Sách Ca Bệnh Mở Rộng</h2>';
+            
+            clinicalCasesData.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = `case-tab ${index === currentActiveIndex ? 'active' : ''}`;
+                card.id = `tab-index-${index}`;
+                card.onclick = () => { playCyberSound('click'); loadTargetCaseData(index); };
+                
+                card.innerHTML = `
+                    <h3>${item.name.replace("Bệnh nhân: ", "")}</h3>
+                    <p>Mã HS: #000${item.id} - Tuổi dậy thì</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Load targeted medical records into data blocks viewer
+        function loadTargetCaseData(index) {
+            currentActiveIndex = index;
+            
+            // Manage Active Class Highlight Update
+            document.querySelectorAll('.case-tab').forEach(el => el.classList.remove('active'));
+            const activeTab = document.getElementById(`tab-index-${index}`);
+            if (activeTab) activeTab.classList.add('active');
+
+            const item = clinicalCasesData[index];
+            document.getElementById('view-patient-name').innerText = item.name;
+            document.getElementById('view-patient-meta').innerText = item.meta;
+            document.getElementById('view-symptoms').innerText = item.symptoms;
+            document.getElementById('view-habits').innerText = item.habits;
+            document.getElementById('view-prescription').innerText = item.prescription;
+
+            // Reset Prescription Container State Blur Lock
+            document.getElementById('prescription-container').classList.remove('reveal');
+        }
+
+        // Toggle state presentation to reveal prescription data
+        function togglePrescriptionReveal() {
+            playCyberSound('reveal');
+            const container = document.getElementById('prescription-container');
+            container.classList.toggle('reveal');
+        }
+
+        // Sequence pipeline mechanism to next case record file
+        function triggerNextCase() {
+            playCyberSound('success');
+            let nextIndex = currentActiveIndex + 1;
+            if (nextIndex >= clinicalCasesData.length) {
+                nextIndex = 0; // wrap loop round
+            }
+            loadTargetCaseData(nextIndex);
+        }
+
+        // Interactive Scoreboard Modifier Utility
+        function updateScore(amount) {
+            scoreXPCounter += amount;
+            if (scoreXPCounter < 0) scoreXPCounter = 0;
+            document.getElementById('score-val').innerText = scoreXPCounter;
+            playCyberSound('success');
+        }
+
+        // Clock Engine Loop Logic Component
+        function startCountdownEngine() {
+            if (timerIntervalNode) clearInterval(timerIntervalNode);
+            
+            timerIntervalNode = setInterval(() => {
+                timerSecondsTotal--;
+                if (timerSecondsTotal <= 0) {
+                    clearInterval(timerIntervalNode);
+                    document.getElementById('countdown-clock').innerText = "HẾT GIỜ";
+                    document.getElementById('countdown-clock').style.animation = "blink 1s infinite";
+                    return;
+                }
+
+                const min = Math.floor(timerSecondsTotal / 60).toString().padStart(2, '0');
+                const sec = (timerSecondsTotal % 60).toString().padStart(2, '0');
+                document.getElementById('countdown-clock').innerText = `${min}:${sec}`;
+            }, 1000);
+        }
+
+        // Trigger loading workflow application initialization
+        window.onload = initAppDashboard;
+    </script>
+</body>
+</html>
