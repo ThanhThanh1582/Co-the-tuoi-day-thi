@@ -3,34 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NOVA HOSPITAL – HỆ THỐNG ĐÀO TẠO LÂM SÀNG</title>
+  <title>LỚP 6 – HỆ THỐNG ĐÀO TẠO Y KHOA HỌC ĐƯỜNG</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Hệ thống đào tạo y khoa học đường dành cho học sinh Lớp 6: Chăm sóc cơ thể tuổi dậy thì và phát triển chiều cao tối ưu.">
+  
+  <!-- Google Fonts & FontAwesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root {
       --bg-dark: #070B13;
-      --bg-sidebar: #090E17;
-      --bg-card: rgba(15, 22, 39, 0.82);
-      --bg-surface: #1E293B;
+      --bg-card: rgba(13, 22, 39, 0.85);
       --text-main: #FFFFFF;
-      --text-muted: #64748B;
+      --text-muted: #94A3B8;
+      
+      /* Vibrant Theme Glows */
       --cyan: #00F0FF;
-      --cyan-glow: rgba(0, 240, 255, 0.3);
-      --purple: #8B5CF6;
-      --purple-glow: rgba(139, 92, 246, 0.3);
-      --pink: #EC4899;
+      --cyan-glow: rgba(0, 240, 255, 0.25);
       --mint: #10B981;
-      --mint-glow: rgba(16, 185, 129, 0.3);
-      --coral: #FF2E55;
-      --coral-glow: rgba(255, 46, 85, 0.3);
+      --mint-glow: rgba(16, 185, 129, 0.25);
+      --purple: #8B5CF6;
+      --purple-glow: rgba(139, 92, 246, 0.25);
+      --pink: #EC4899;
+      --pink-glow: rgba(236, 72, 153, 0.25);
+      
       --font-heading: 'Montserrat', sans-serif;
-      --font-body: 'Inter', sans-serif;
-      --radius-lg: 16px;
-      --radius-md: 12px;
-      --glass-bg: rgba(13, 22, 39, 0.85);
-      --glass-border: rgba(0, 240, 255, 0.25);
-      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-body: 'Outfit', sans-serif;
+      --glass-border: rgba(0, 240, 255, 0.18);
+      --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     * {
@@ -41,10 +45,8 @@
 
     body {
       background-color: var(--bg-dark);
-      background-image: url('image_589641.png');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
+      background-image: radial-gradient(circle at 20% 30%, rgba(139, 92, 246, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 80% 70%, rgba(0, 240, 255, 0.08) 0%, transparent 40%);
       color: var(--text-main);
       font-family: var(--font-body);
       min-height: 100vh;
@@ -53,10 +55,9 @@
       justify-content: space-between;
       position: relative;
       overflow-x: hidden;
-      font-weight: 700;
     }
 
-    /* Blurred hospital image background overlay */
+    /* Blurred Background Image Overlay for Clinical Aesthetic */
     body::before {
       content: '';
       position: absolute;
@@ -64,77 +65,75 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(7, 11, 19, 0.8) !important; /* Dark navy clinical tint */
-      backdrop-filter: blur(3px) !important; /* Blurred image like Slide 1 */
-      -webkit-backdrop-filter: blur(3px) !important;
-      z-index: 1;
+      background: rgba(7, 11, 19, 0.82);
+      z-index: -1;
       pointer-events: none;
     }
 
-    /* Header styling */
     .app-header {
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 30px 24px;
+      padding: 40px 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       z-index: 10;
-      position: relative;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 15px;
     }
 
     .brand-logo {
-      font-size: 28px;
+      font-size: 32px;
       color: var(--cyan);
-      text-shadow: 0 0 10px var(--cyan-glow);
-      animation: pulse 2s infinite alternate;
+      text-shadow: 0 0 15px var(--cyan-glow);
+      animation: pulse-glow 2s infinite alternate;
     }
 
     .brand-text h1 {
       font-family: var(--font-heading);
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 900;
-      letter-spacing: 1px;
-      color: #FFF;
-      text-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+      letter-spacing: 1.5px;
+      background: linear-gradient(135deg, #FFF 40%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     .brand-text p {
       font-size: 11px;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: 2px;
       color: var(--text-muted);
       text-transform: uppercase;
+      margin-top: 3px;
     }
 
     .header-badge {
-      background: rgba(0, 240, 255, 0.15);
-      border: 1.5px solid var(--cyan);
+      background: rgba(0, 240, 255, 0.1);
+      border: 1.5px solid var(--glass-border);
       color: var(--cyan);
-      font-size: 11px;
-      font-weight: 800;
-      padding: 6px 14px;
-      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 30px;
       text-transform: uppercase;
       letter-spacing: 1px;
-      text-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* Main Section */
     .main-container {
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 20px 24px;
+      padding: 20px 24px 60px 24px;
       z-index: 10;
-      position: relative;
       flex-grow: 1;
       display: flex;
       flex-direction: column;
@@ -143,43 +142,44 @@
 
     .welcome-banner {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 50px;
     }
 
     .welcome-banner h2 {
       font-family: var(--font-heading);
-      font-size: 38px;
+      font-size: 42px;
       font-weight: 900;
       color: #FFF;
-      margin-bottom: 12px;
-      background: linear-gradient(135deg, #FFF 60%, var(--cyan) 100%);
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #FFF 50%, var(--cyan) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+      letter-spacing: -0.5px;
     }
 
     .welcome-banner p {
-      font-size: 16px;
+      font-size: 17px;
       color: #E2E8F0;
-      max-width: 700px;
+      max-width: 750px;
       margin: 0 auto;
       line-height: 1.6;
-      font-weight: 600;
+      font-weight: 500;
     }
 
-    /* Cards Grid - Glassmorphism cards aligned in Navy color tone */
     .lessons-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: 40px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
     }
 
     .lesson-card {
-      background: var(--glass-bg);
+      background: var(--bg-card);
       border: 2px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 36px 30px;
+      border-radius: 20px;
+      padding: 45px 35px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -187,8 +187,8 @@
       transition: var(--transition-smooth);
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.1);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .lesson-card::before {
@@ -201,100 +201,103 @@
       transition: var(--transition-smooth);
     }
 
-    .card-tiet1::before { background: linear-gradient(90deg, var(--cyan), var(--purple)); }
-    .card-tiet2::before { background: linear-gradient(90deg, var(--mint), var(--cyan)); }
-    .card-tiet3::before { background: linear-gradient(90deg, var(--coral), var(--purple)); }
+    .card-puberty::before { background: linear-gradient(90deg, var(--cyan), var(--purple)); }
+    .card-height::before { background: linear-gradient(90deg, var(--mint), var(--cyan)); }
 
     .lesson-card:hover {
       transform: translateY(-8px);
       border-color: rgba(0, 240, 255, 0.45);
-      box-shadow: 0 0 35px rgba(0, 240, 255, 0.25);
+      box-shadow: 0 15px 40px rgba(0, 240, 255, 0.2);
     }
 
     .card-header-info {
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
+      align-items: center;
+      margin-bottom: 30px;
     }
 
     .card-badge {
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 4px;
+      padding: 6px 14px;
+      border-radius: 30px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .card-tiet1 .card-badge { background: rgba(0, 240, 255, 0.15); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.3); }
-    .card-tiet2 .card-badge { background: rgba(16, 185, 129, 0.15); color: var(--mint); border: 1px solid rgba(16, 185, 129, 0.3); }
-    .card-tiet3 .card-badge { background: rgba(255, 46, 85, 0.15); color: var(--coral); border: 1px solid rgba(255, 46, 85, 0.3); }
+    .card-puberty .card-badge { background: rgba(0, 240, 255, 0.1); color: var(--cyan); border: 1.5px solid rgba(0, 240, 255, 0.25); }
+    .card-height .card-badge { background: rgba(16, 185, 129, 0.1); color: var(--mint); border: 1.5px solid rgba(16, 185, 129, 0.25); }
 
     .card-icon {
-      font-size: 24px;
+      font-size: 32px;
+      transition: var(--transition-smooth);
     }
-    .card-tiet1 .card-icon { color: var(--cyan); }
-    .card-tiet2 .card-icon { color: var(--mint); }
-    .card-tiet3 .card-icon { color: var(--coral); }
+    .card-puberty .card-icon { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
+    .card-height .card-icon { color: var(--mint); text-shadow: 0 0 10px var(--mint-glow); }
+
+    .lesson-card:hover .card-icon {
+      transform: scale(1.15) rotate(5deg);
+    }
 
     .card-body h3 {
       font-family: var(--font-heading);
-      font-size: 22px;
+      font-size: 24px;
       font-weight: 900;
       color: #FFF;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      line-height: 1.3;
     }
 
-    .card-role {
+    .card-num-label {
       font-size: 12px;
       font-weight: 800;
-      color: var(--text-muted);
       margin-bottom: 20px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .card-tiet1 .card-role { color: var(--cyan); }
-    .card-tiet2 .card-role { color: var(--mint); }
-    .card-tiet3 .card-role { color: var(--coral); }
+    .card-puberty .card-num-label { color: var(--cyan); }
+    .card-height .card-num-label { color: var(--mint); }
 
     .card-desc {
-      font-size: 14px;
+      font-size: 14.5px;
       color: #CBD5E1;
       line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 25px;
       min-height: 70px;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .card-features {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 30px;
+      gap: 12px;
+      margin-bottom: 35px;
     }
 
     .card-features li {
-      font-size: 13.5px;
-      color: var(--text-main);
+      font-size: 14px;
+      color: #E2E8F0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-weight: 600;
     }
 
-    .card-features li::before {
-      content: '✚';
-      font-size: 10px;
-    }
-    .card-tiet1 .card-features li::before { color: var(--cyan); }
-    .card-tiet2 .card-features li::before { color: var(--mint); }
-    .card-tiet3 .card-features li::before { color: var(--coral); }
+    .card-puberty .card-features li i { color: var(--cyan); }
+    .card-height .card-features li i { color: var(--mint); }
 
     .enter-btn {
       width: 100%;
-      padding: 14px;
-      border-radius: var(--radius-md);
+      padding: 16px;
+      border-radius: 12px;
       font-family: var(--font-heading);
       font-weight: 800;
       font-size: 14px;
@@ -303,80 +306,70 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       transition: var(--transition-smooth);
       border: none;
       cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .card-tiet1 .enter-btn {
-      background: linear-gradient(135deg, rgba(0, 240, 255, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+    .card-puberty .enter-btn {
+      background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(139, 92, 246, 0.15) 100%);
       color: #FFF;
-      border: 1.5px solid rgba(0, 240, 255, 0.5);
-      box-shadow: 0 4px 15px rgba(0, 240, 255, 0.15);
+      border: 1.5px solid rgba(0, 240, 255, 0.45);
+      box-shadow: 0 4px 15px rgba(0, 240, 255, 0.1);
     }
-    .card-tiet1 .enter-btn:hover {
+    .card-puberty .enter-btn:hover {
       background: linear-gradient(135deg, var(--cyan) 0%, var(--purple) 100%);
-      box-shadow: 0 6px 20px var(--cyan-glow);
-      color: #000;
+      box-shadow: 0 6px 20px rgba(0, 240, 255, 0.3);
+      color: #070B13;
       transform: translateY(-2px);
     }
 
-    .card-tiet2 .enter-btn {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(0, 240, 255, 0.2) 100%);
+    .card-height .enter-btn {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(0, 240, 255, 0.15) 100%);
       color: #FFF;
-      border: 1.5px solid rgba(16, 185, 129, 0.5);
-      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+      border: 1.5px solid rgba(16, 185, 129, 0.45);
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.1);
     }
-    .card-tiet2 .enter-btn:hover {
+    .card-height .enter-btn:hover {
       background: linear-gradient(135deg, var(--mint) 0%, var(--cyan) 100%);
-      box-shadow: 0 6px 20px var(--mint-glow);
-      color: #000;
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.3);
+      color: #070B13;
       transform: translateY(-2px);
     }
 
-    .card-tiet3 .enter-btn {
-      background: linear-gradient(135deg, rgba(255, 46, 85, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
-      color: #FFF;
-      border: 1.5px solid rgba(255, 46, 85, 0.5);
-      box-shadow: 0 4px 15px rgba(255, 46, 85, 0.15);
-    }
-    .card-tiet3 .enter-btn:hover {
-      background: linear-gradient(135deg, var(--coral) 0%, var(--purple) 100%);
-      box-shadow: 0 6px 20px var(--coral-glow);
-      transform: translateY(-2px);
-    }
-
-    /* Footer */
     .app-footer {
       width: 100%;
-      padding: 24px;
+      padding: 30px;
       text-align: center;
-      border-top: 1.5px solid var(--glass-border);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
       font-size: 12px;
       color: var(--text-muted);
-      z-index: 10;
-      background: rgba(11, 15, 25, 0.85);
+      background: rgba(7, 11, 19, 0.95);
       backdrop-filter: blur(8px);
-      position: relative;
+      z-index: 10;
     }
 
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 0.9; }
+    @keyframes pulse-glow {
+      0% { transform: scale(1); opacity: 0.85; }
       100% { transform: scale(1.05); opacity: 1; }
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 768px) {
       .lessons-grid {
         grid-template-columns: 1fr;
-        max-width: 500px;
-        margin: 0 auto 40px auto;
+        max-width: 480px;
+      }
+      .welcome-banner h2 {
+        font-size: 32px;
+      }
+      .welcome-banner p {
+        font-size: 15px;
       }
       .lesson-card {
         min-height: auto;
-      }
-      .welcome-banner h2 {
-        font-size: 30px;
       }
     }
   </style>
@@ -385,91 +378,68 @@
   <!-- Header -->
   <header class="app-header">
     <div class="brand">
-      <div class="brand-logo">✚</div>
+      <div class="brand-logo"><i class="fa-solid fa-hospital"></i></div>
       <div class="brand-text">
         <h1>NOVA HOSPITAL</h1>
-        <p>Hội Đồng Giám Định Y Khoa</p>
+        <p>HỌC VIỆN Y KHOA HỌC ĐƯỜNG</p>
       </div>
     </div>
     <div class="header-badge">
-      🩺 Đào tạo chuyên khoa da liễu
+      <i class="fa-solid fa-layer-group"></i> KHỐI LỚP 6
     </div>
   </header>
 
-  <!-- Main Content -->
+  <!-- Main Container -->
   <main class="main-container">
     <div class="welcome-banner">
-      <h2>Hành trình bác sĩ chuyên khoa da liễu</h2>
-      <p>Chọn phân hệ hội chẩn dưới đây để kích hoạt cơ sở dữ liệu lâm sàng. Vui lòng hoàn thành lần lượt các tiết trực để được sắc phong danh hiệu chính thức.</p>
+      <h2>Hệ thống bài học Lớp 6</h2>
+      <p>Chào mừng các bác sĩ tập sự! Hãy lựa chọn một trong hai chiến dịch sức khỏe học đường dưới đây để bắt đầu ca hội chẩn lâm sàng chuyên sâu.</p>
     </div>
 
     <div class="lessons-grid">
-      <!-- TIẾT 1 -->
-      <div class="lesson-card card-tiet1">
+      <!-- BÀI 6.11 CARD -->
+      <div class="lesson-card card-puberty">
         <div>
           <div class="card-header-info">
-            <span class="card-badge">Phân hệ Lâm sàng</span>
-            <span class="card-icon">🩺</span>
+            <span class="card-badge"><i class="fa-solid fa-shield-virus"></i> Vệ sinh dậy thì</span>
+            <span class="card-icon"><i class="fa-solid fa-soap"></i></span>
           </div>
           <div class="card-body">
-            <span class="card-role">Bác sĩ Lâm sàng thực tập</span>
-            <h3>Tiết 1: Khám Ca Bệnh</h3>
-            <p class="card-desc">Tiếp cận 3 ca bệnh đầu tiên, rà soát hồ sơ bệnh án EMR của Su, Nam, Kem để khám, chẩn đoán cơ chế và lập đơn thuốc làm sạch chuẩn pH 5.5.</p>
+            <span class="card-num-label"><i class="fa-solid fa-flask"></i> Bài học 6.11</span>
+            <h3>Chăm sóc cơ thể tuổi dậy thì như thế nào?</h3>
+            <p class="card-desc">Khám và chẩn đoán 3 ca bệnh học đường, làm rõ cơ chế sinh học của mụn trứng cá và mùi cơ thể, từ đó thiết lập phác đồ làm sạch khoa học chuẩn pH 5.5.</p>
             <ul class="card-features">
-              <li>Chẩn đoán 3 triệu chứng lâm sàng</li>
-              <li>Giải mã mật mã mùi hôi bằng trò chơi</li>
-              <li>Sắp xếp quy trình tắm khoa học 8 bước</li>
+              <li><i class="fa-solid fa-circle-check"></i> 8 Câu hỏi phản ứng nhanh</li>
+              <li><i class="fa-solid fa-circle-check"></i> Rà soát hồ sơ EMR mầm bệnh</li>
+              <li><i class="fa-solid fa-circle-check"></i> Thiết kế Poster truyền thông 3D</li>
             </ul>
           </div>
         </div>
-        <a href="tiet1.html" class="enter-btn">
-          🩺 VÀO HỘI CHẨN LÂM SÀNG
+        <a href="puberty_portal.html" class="enter-btn" id="btn-puberty">
+          <span>Kích hoạt ca trực</span> <i class="fa-solid fa-chevron-right"></i>
         </a>
       </div>
 
-      <!-- TIẾT 2 -->
-      <div class="lesson-card card-tiet2">
+      <!-- BÀI 6.23 CARD -->
+      <div class="lesson-card card-height">
         <div>
           <div class="card-header-info">
-            <span class="card-badge">Phân hệ Truyền thông</span>
-            <span class="card-icon">📢</span>
+            <span class="card-badge"><i class="fa-solid fa-child-reaching"></i> Phát triển thể chất</span>
+            <span class="card-icon"><i class="fa-solid fa-ruler-vertical"></i></span>
           </div>
           <div class="card-body">
-            <span class="card-role">Bác sĩ Y học Cộng đồng</span>
-            <h3>Tiết 2: Bác sĩ Cộng đồng</h3>
-            <p class="card-desc">Nâng cấp quy mô chiến dịch. Khảo sát hồ sơ bệnh án ẩn, lật tẩy các thói quen sai lệch và đóng gói giải pháp thành Tờ rơi 3D tương tác.</p>
+            <span class="card-num-label"><i class="fa-solid fa-flask"></i> Bài học 6.23</span>
+            <h3>Làm thế nào để phát triển chiều cao tối ưu?</h3>
+            <p class="card-desc">Nhập vai bác sĩ nhi khoa tại Nova Hospital, chẩn đoán thói quen sinh hoạt cản trở chiều cao của 5 bệnh nhi và thiết lập chiến dịch nâng cao thể trạng.</p>
             <ul class="card-features">
-              <li>Đấu thẻ phản xạ khoa học 🟢 / 🔴</li>
-              <li>Truy tìm "mầm bệnh" lầm tưởng dân gian</li>
-              <li>Phác thảo Tờ rơi 3D "Hành trình lớn khôn"</li>
+              <li><i class="fa-solid fa-circle-check"></i> Chẩn đoán 3 trụ cột chiều cao</li>
+              <li><i class="fa-solid fa-circle-check"></i> Khảo sát lầm tưởng lười vận động</li>
+              <li><i class="fa-solid fa-circle-check"></i> Sắc phong chứng chỉ bác sĩ nhí</li>
             </ul>
           </div>
         </div>
-        <a href="tiet2.html" class="enter-btn">
-          📢 KÍCH HOẠT CHIẾN DỊCH
-        </a>
-      </div>
-
-      <!-- TIẾT 3 -->
-      <div class="lesson-card card-tiet3">
-        <div>
-          <div class="card-header-info">
-            <span class="card-badge">Phân hệ Thẩm định</span>
-            <span class="card-icon">🏆</span>
-          </div>
-          <div class="card-body">
-            <span class="card-role">Hội đồng Chuyên gia Y khoa</span>
-            <h3>Tiết 3: Đại Hội Tranh Tài</h3>
-            <p class="card-desc">Thuyết trình thực địa tuyên truyền chiến dịch. Chấm điểm chéo sản phẩm y khoa, công bố giải thưởng vinh quang và tuyên thệ sứ mệnh bác sĩ.</p>
-            <ul class="card-features">
-              <li>Báo cáo kết quả dự án cộng đồng</li>
-              <li>Bình chọn chéo sản phẩm thiết kế</li>
-              <li>Sắc phong Bác sĩ Chuyên khoa Da liễu</li>
-            </ul>
-          </div>
-        </div>
-        <a href="cuoc_thi.html" class="enter-btn">
-          🏆 BẮT ĐẦU TRANH TÀI
+        <a href="height_portal.html" class="enter-btn" id="btn-height">
+          <span>Kích hoạt ca trực</span> <i class="fa-solid fa-chevron-right"></i>
         </a>
       </div>
     </div>
@@ -477,7 +447,7 @@
 
   <!-- Footer -->
   <footer class="app-footer">
-    <p>&copy; 2026 Nova Hospital &bull; Bản quyền phần mềm đào tạo y khoa thuộc Viện Nghiên cứu Sức khỏe Nova Community Health</p>
+    <p>&copy; 2026 Nova Hospital &bull; Phần mềm thuộc bản quyền Viện Nghiên cứu Sức khỏe Nova Community Health</p>
   </footer>
 </body>
 </html>
