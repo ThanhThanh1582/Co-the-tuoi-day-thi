@@ -331,7 +331,8 @@
             <h1>Đại Hội Tranh Tài Chuyên Khoa Da Liễu</h1>
             <span>Hệ Thống Quản Lý Ca Bệnh & Hội Chẩn Lâm Sàng Vệ Sinh Tuổi Dậy Thì v4.0</span>
         </div>
-        <div class="hud-display">
+        <div class="hud-display" style="display: flex; align-items: center; gap: 20px;">
+            <button class="btn-action btn-reveal" id="fullscreen-toggle" style="padding: 8px 16px; font-size: 11px; margin: 0; display: flex; align-items: center; gap: 6px;">📺 TOÀN MÀN HÌNH</button>
             <div class="score-board">Điểm Tích Lũy Viện: <span id="score-val">0</span> XP</div>
             <div class="timer-box" id="countdown-clock">05:00</div>
         </div>
@@ -476,6 +477,33 @@
             renderSidebarTabs();
             loadTargetCaseData(0);
             startCountdownEngine();
+
+            const fullscreenBtn = document.getElementById('fullscreen-toggle');
+            if (fullscreenBtn) {
+                fullscreenBtn.addEventListener('click', () => {
+                    if (!document.fullscreenElement) {
+                        document.documentElement.requestFullscreen().then(() => {
+                            fullscreenBtn.innerText = '📺 THU NHỎ';
+                        }).catch(err => {
+                            console.warn(`Error attempting to enable full-screen mode: ${err.message}`);
+                        });
+                    } else {
+                        document.exitFullscreen().then(() => {
+                            fullscreenBtn.innerText = '📺 TOÀN MÀN HÌNH';
+                        });
+                    }
+                });
+            }
+
+            document.addEventListener('fullscreenchange', () => {
+                if (fullscreenBtn) {
+                    if (document.fullscreenElement) {
+                        fullscreenBtn.innerText = '📺 THU NHỎ';
+                    } else {
+                        fullscreenBtn.innerText = '📺 TOÀN MÀN HÌNH';
+                    }
+                }
+            });
         }
 
         // Render Sidebar Menu Tabs Component

@@ -854,6 +854,34 @@ window.triggerGraduationConfetti = triggerGraduationConfetti;
 
 // --- INITIALIZATION & EVENTS ---
 document.addEventListener('DOMContentLoaded', () => {
+  // Fullscreen toggle
+  const fullscreenBtn = document.getElementById('fullscreen-toggle');
+  if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', () => {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          fullscreenBtn.innerText = '📺 THU NHỎ';
+        }).catch(err => {
+          console.warn(`Error attempting to enable full-screen mode: ${err.message}`);
+        });
+      } else {
+        document.exitFullscreen().then(() => {
+          fullscreenBtn.innerText = '📺 TOÀN MÀN HÌNH';
+        });
+      }
+    });
+  }
+
+  document.addEventListener('fullscreenchange', () => {
+    if (fullscreenBtn) {
+      if (document.fullscreenElement) {
+        fullscreenBtn.innerText = '📺 THU NHỎ';
+      } else {
+        fullscreenBtn.innerText = '📺 TOÀN MÀN HÌNH';
+      }
+    }
+  });
+
   // Arrow buttons
   document.getElementById('prev-slide-btn').addEventListener('click', () => {
     navigateToSlide(currentSlide - 1);
